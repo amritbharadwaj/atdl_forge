@@ -10,7 +10,7 @@ A small Tkinter GUI that loads FIXatdl XML, lets you pick a strategy, fills in p
 ## Run
 
 ```powershell
-python .\FIX_ATDL.py
+python .\ATDL_Forge.py
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ python .\FIX_ATDL.py
 
 ## Files
 
-- `FIX_ATDL.py`: Main application
+- `ATDL_Forge.py`: Main application
 - `app_icon.png`: Custom app icon (optional)
 
 ## Author
