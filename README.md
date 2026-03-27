@@ -31,3 +31,7 @@ python .\FIX_ATDL.py
 
 - `FIX_ATDL.py`: Main application
 - `app_icon.png`: Custom app icon (optional)
+
+## Author
+
+Amrit Bharadwaj
