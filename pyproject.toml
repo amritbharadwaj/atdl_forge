@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atdl-forge"
+version = "1.0.0"
+description = "A cross-platform desktop application for rendering FIXatdl XML files and generating FIX messages"
+authors = [{name = "Amrit Bharadwaj"}]
+requires-python = ">=3.10"
+dependencies = [
+    "PySide6>=6.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "PyInstaller>=6.0",
+    "pytest>=8.0",
+    "pytest-qt>=4.2",
+    "black>=24.0",
+    "mypy>=1.8",
+]
+
+[project.urls]
+Homepage = "https://github.com/amritbharadwaj/ATDL_Forge"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
