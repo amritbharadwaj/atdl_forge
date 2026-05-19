@@ -37,6 +37,8 @@ class Parameter:
     default_value: Optional[str] = None
     constraints: List[Constraint] = field(default_factory=list)
     param_type: str = "String"  # String, Integer, Float, Boolean, DateTime
+    # enum_id -> wire_value (FIX value) from <EnumPair>
+    enum_pairs: Dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -49,6 +51,9 @@ class Control:
     help_text: Optional[str] = None
     enabled: bool = True
     visible: bool = True
+    # (enum_id, ui_rep) from <ListItem> children
+    list_items: List[Tuple[str, str]] = field(default_factory=list)
+    init_value: Optional[str] = None
 
 
 @dataclass

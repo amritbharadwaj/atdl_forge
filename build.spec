@@ -9,7 +9,10 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('app_icon.png', '.')] if os.path.exists('app_icon.png') else [],
+    datas=[
+        ('atdl_forge/ui/theme/light_oms.qss', 'atdl_forge/ui/theme'),
+    ]
+    + ([('app_icon.png', '.')] if os.path.exists('app_icon.png') else []),
     hiddenimports=[
         'PySide6.QtCore',
         'PySide6.QtGui',

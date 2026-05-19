@@ -1,0 +1,336 @@
+/* ATDL Forge — Light OMS/EMS theme (medium contrast for bright displays) */
+
+/* Surfaces */
+/* appBg: #D4D8E0  panelBg: #ECEEF2  inputBg: #FFFFFF  border: #B0B7C3  text: #12151A */
+
+QMainWindow {
+    background-color: #D4D8E0;
+}
+
+QWidget#centralRoot {
+    background-color: #D4D8E0;
+}
+
+/* Toolbar */
+QToolBar {
+    background-color: #ECEEF2;
+    border-bottom: 1px solid #B0B7C3;
+    spacing: 6px;
+    padding: 4px 8px;
+}
+
+QToolBar QToolButton {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #12151A;
+    padding: 6px 12px;
+    font-size: 10pt;
+}
+
+QToolBar QToolButton:hover {
+    background-color: #DDE3EC;
+    border-color: #B0B7C3;
+}
+
+QToolBar QToolButton:pressed {
+    background-color: #CCD6E8;
+}
+
+QToolBar QToolButton[primary="true"] {
+    background-color: #0B57D0;
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+QToolBar QToolButton[primary="true"]:hover {
+    background-color: #0948AD;
+}
+
+/* Menu bar */
+QMenuBar {
+    background-color: #ECEEF2;
+    border-bottom: 1px solid #B0B7C3;
+    color: #12151A;
+}
+
+QMenuBar::item {
+    color: #12151A;
+    background-color: transparent;
+    padding: 4px 10px;
+}
+
+QMenuBar::item:selected {
+    background-color: #DDE3EC;
+    color: #12151A;
+}
+
+QMenuBar::item:pressed {
+    background-color: #CCD6E8;
+    color: #12151A;
+}
+
+QMenu {
+    background-color: #F4F5F8;
+    border: 1px solid #B0B7C3;
+    color: #12151A;
+    padding: 4px 0;
+}
+
+QMenu::item {
+    color: #12151A;
+    background-color: #F4F5F8;
+    padding: 6px 28px 6px 20px;
+}
+
+QMenu::item:selected {
+    background-color: #DDE3EC;
+    color: #12151A;
+}
+
+QMenu::item:disabled {
+    color: #6B7380;
+    background-color: #F4F5F8;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: #B0B7C3;
+    margin: 4px 10px;
+}
+
+/* Group boxes / panels */
+QGroupBox {
+    background-color: #ECEEF2;
+    border: 1px solid #B0B7C3;
+    border-radius: 6px;
+    margin-top: 12px;
+    padding: 12px 10px 10px 10px;
+    font-weight: 600;
+    color: #12151A;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 0 6px;
+    color: #12151A;
+    font-size: 11pt;
+}
+
+QFrame#panelFrame {
+    background-color: #ECEEF2;
+    border: 1px solid #B0B7C3;
+    border-radius: 6px;
+}
+
+QLabel#panelHeader {
+    color: #12151A;
+    font-size: 11pt;
+    font-weight: 600;
+    padding: 8px 10px 4px 10px;
+    background-color: transparent;
+}
+
+QLabel#panelSubtitle {
+    color: #4A5260;
+    font-size: 9pt;
+    padding: 0 10px 6px 10px;
+    background-color: transparent;
+}
+
+QLabel#emptyState {
+    color: #4A5260;
+    font-size: 10pt;
+    padding: 24px;
+    background-color: transparent;
+}
+
+QLabel#fieldLabelRequired {
+    color: #9A1F12;
+    font-weight: 600;
+}
+
+QLabel#constraintHint {
+    color: #4A5260;
+    font-size: 9pt;
+}
+
+/* Strategy navigator */
+QWidget#strategyNavigatorPanel {
+    background-color: #D4D8E0;
+}
+
+QListWidget#strategyNavigator {
+    background-color: #ECEEF2;
+    border: none;
+    outline: none;
+    font-size: 10pt;
+    color: #12151A;
+}
+
+QListWidget#strategyNavigator::item {
+    padding: 8px 10px;
+    border-radius: 4px;
+    color: #12151A;
+}
+
+QListWidget#strategyNavigator::item:selected {
+    background-color: #C5D4EB;
+    color: #083D94;
+}
+
+QListWidget#strategyNavigator::item:hover:!selected {
+    background-color: #DDE3EC;
+}
+
+/* Inspector */
+QWidget#inspectorPanel {
+    background-color: #D4D8E0;
+}
+
+/* Inputs — white fields on gray panels for clear separation */
+QLineEdit, QComboBox, QSpinBox, QDateTimeEdit {
+    background-color: #FFFFFF;
+    border: 1px solid #9AA3B2;
+    border-radius: 4px;
+    padding: 5px 8px;
+    color: #12151A;
+    min-height: 22px;
+}
+
+QLineEdit:focus, QComboBox:focus, QSpinBox:focus, QDateTimeEdit:focus {
+    border: 2px solid #0B57D0;
+    padding: 4px 7px;
+}
+
+QLineEdit[invalid="true"], QComboBox[invalid="true"],
+QSpinBox[invalid="true"], QDateTimeEdit[invalid="true"] {
+    border: 2px solid #C41E12;
+    background-color: #FCE8E6;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 20px;
+    background-color: #ECEEF2;
+}
+
+/* Combo popup list */
+QComboBox QAbstractItemView {
+    background-color: #F4F5F8;
+    color: #12151A;
+    border: 1px solid #9AA3B2;
+    selection-background-color: #C5D4EB;
+    selection-color: #083D94;
+    outline: none;
+    padding: 2px;
+}
+
+QComboBox QAbstractItemView::item {
+    color: #12151A;
+    background-color: #F4F5F8;
+    min-height: 24px;
+    padding: 4px 10px;
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: #C5D4EB;
+    color: #083D94;
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: #DDE3EC;
+    color: #12151A;
+}
+
+/* Order ticket */
+QWidget#orderTicket {
+    background-color: #D4D8E0;
+}
+
+QWidget#orderTicket QScrollArea,
+QWidget#orderTicket QScrollArea > QWidget > QWidget {
+    background-color: #ECEEF2;
+    color: #12151A;
+}
+
+QWidget#orderTicket QLabel {
+    color: #12151A;
+    background-color: transparent;
+}
+
+QWidget#orderTicket QLabel#fieldLabelRequired {
+    color: #9A1F12;
+}
+
+QWidget#orderTicket QCheckBox {
+    color: #12151A;
+}
+
+/* FIX output */
+QWidget#fixOutputPanel {
+    background-color: #D4D8E0;
+}
+
+QPlainTextEdit#fixOutput {
+    background-color: #E4E7ED;
+    border: 1px solid #9AA3B2;
+    border-radius: 4px;
+    color: #12151A;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 10pt;
+    padding: 8px;
+}
+
+/* Splitters */
+QSplitter::handle {
+    background-color: #9AA3B2;
+    width: 3px;
+    height: 3px;
+}
+
+QSplitter::handle:hover {
+    background-color: #0B57D0;
+}
+
+/* Scroll areas */
+QScrollArea {
+    border: none;
+    background-color: transparent;
+}
+
+/* Status bar */
+QStatusBar {
+    background-color: #ECEEF2;
+    border-top: 1px solid #B0B7C3;
+    color: #4A5260;
+    font-size: 9pt;
+}
+
+QStatusBar QLabel {
+    color: #4A5260;
+    padding: 0 8px;
+}
+
+/* Inspector detail labels */
+QLabel#detailLabel {
+    color: #4A5260;
+    font-weight: 600;
+    font-size: 9pt;
+}
+
+QLabel#detailValue {
+    color: #12151A;
+    padding-left: 8px;
+}
+
+QLabel#detailRequired {
+    color: #9A1F12;
+    font-weight: 600;
+}
+
+QLabel#detailAllowedValues {
+    color: #083D94;
+}

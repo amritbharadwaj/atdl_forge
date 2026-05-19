@@ -26,7 +26,7 @@ class ControlFactory:
         if "TextField" in control_type:
             return self._create_text_field(parameter)
         elif "DropDownList" in control_type or "Combo" in control_type:
-            return self._create_combo_box(parameter)
+            return self._create_combo_box(control, parameter)
         elif "CheckBox" in control_type:
             return self._create_checkbox(parameter)
         elif "DateTime" in control_type or "Date" in control_type:
@@ -65,21 +65,37 @@ class ControlFactory:
         field.setToolTip(parameter.description or "")
         return field
 
-    def _create_combo_box(self, parameter: Parameter) -> QComboBox:
-        """Create a combo box with allowed values."""
+    def _create_combo_box(self, control: Control, parameter: Parameter) -> QComboBox:
+        """Create a combo box with ListItem UI reps, ValidValues, or EnumPairs."""
         combo = QComboBox()
+        combo.setObjectName("atdlComboBox")
 
-        # Get allowed values from constraints
-        allowed_values_constraint = self._find_constraint(parameter, ConstraintType.ALLOWED_VALUES)
-        if allowed_values_constraint and allowed_values_constraint.allowed_values:
-            combo.addItems(allowed_values_constraint.allowed_values)
+        wire_by_enum = dict(parameter.enum_pairs)
+        default_enum = control.init_value or parameter.default_value
+
+        if control.list_items:
+            for enum_id, ui_rep in control.list_items:
+                wire = wire_by_enum.get(enum_id, enum_id)
+                combo.addItem(ui_rep, wire)
         else:
-            # Fallback: no values available
-            combo.addItem("")
+            allowed_values_constraint = self._find_constraint(
+                parameter, ConstraintType.ALLOWED_VALUES
+            )
+            if allowed_values_constraint and allowed_values_constraint.allowed_values:
+                for value in allowed_values_constraint.allowed_values:
+                    combo.addItem(value, value)
+            elif parameter.enum_pairs:
+                for enum_id, wire in parameter.enum_pairs.items():
+                    combo.addItem(enum_id, wire)
+            else:
+                combo.addItem("", "")
 
-        # Set default if available
-        if parameter.default_value and combo.findText(parameter.default_value) >= 0:
-            combo.setCurrentText(parameter.default_value)
+        if default_enum:
+            for i in range(combo.count()):
+                data = combo.itemData(i)
+                if str(data) == str(default_enum) or combo.itemText(i) == default_enum:
+                    combo.setCurrentIndex(i)
+                    break
 
         combo.setToolTip(parameter.description or "")
         return combo

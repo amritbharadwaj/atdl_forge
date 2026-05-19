@@ -101,8 +101,12 @@ class ATDLParser:
         description = param_elem.get('description')
         required = param_elem.get('required', 'false').lower() == 'true'
         const_value = param_elem.get('constValue')
-        default_value = param_elem.get('defaultValue')
-        param_type = param_elem.get('type', 'String')
+        default_value = param_elem.get('defaultValue') or param_elem.get('initValue')
+        param_type = param_elem.get('type') or param_elem.get('{http://www.w3.org/2001/XMLSchema-instance}type', 'String')
+        if '}' in param_type:
+            param_type = param_type.split(':', 1)[-1].replace('_t', '')
+
+        enum_pairs = self._extract_enum_pairs(param_elem)
 
         # Extract constraints
         constraints = self._extract_constraints(param_elem)
@@ -117,6 +121,7 @@ class ATDLParser:
             default_value=default_value,
             constraints=constraints,
             param_type=param_type,
+            enum_pairs=enum_pairs,
         )
 
     def _extract_constraints(self, param_elem: ET.Element) -> List[Constraint]:
@@ -194,6 +199,27 @@ class ATDLParser:
 
         return allowed_values if allowed_values else None
 
+    def _extract_enum_pairs(self, param_elem: ET.Element) -> Dict[str, str]:
+        """Extract enumID -> wireValue mappings from a parameter."""
+        pairs: Dict[str, str] = {}
+        for ep in param_elem.findall('atdl:EnumPair', self.NAMESPACES) + param_elem.findall('EnumPair'):
+            enum_id = ep.get('enumID')
+            wire_value = ep.get('wireValue')
+            if enum_id and wire_value is not None:
+                pairs[enum_id] = wire_value
+        return pairs
+
+    def _extract_list_items(self, control_elem: ET.Element) -> List[Tuple[str, str]]:
+        """Extract (enum_id, ui_rep) from ListItem children on a control."""
+        items: List[Tuple[str, str]] = []
+        for li in control_elem.findall('lay:ListItem', self.NAMESPACES) + control_elem.findall('ListItem'):
+            enum_id = li.get('enumID')
+            if not enum_id:
+                continue
+            ui_rep = li.get('uiRep') or enum_id
+            items.append((enum_id, ui_rep))
+        return items
+
     def _extract_controls(self, strategy_elem: ET.Element) -> List[Control]:
         """Extract all UI controls from a strategy."""
         controls = []
@@ -229,6 +255,8 @@ class ATDLParser:
                 help_text=help_text,
                 enabled=enabled,
                 visible=visible,
+                list_items=self._extract_list_items(control_elem),
+                init_value=control_elem.get('initValue'),
             )
             controls.append(control)
 

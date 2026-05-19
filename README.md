@@ -1,15 +1,15 @@
-# ATDL Forge MVP
+# ATDL Forge
 
-A professional cross-platform desktop application for rendering FIXatdl XML files and generating FIX messages. Built with PySide6 for native Windows/Mac/Linux support.
+A cross-platform desktop application for rendering FIXatdl XML files and generating FIX messages. Built with PySide6 and a light OMS/EMS-style order ticket UI.
 
 ## Features
 
-- **Full ATDL Support:** Extracts and displays all parameter constraints (ranges, allowed values, patterns, lengths, etc.)
-- **8+ Control Types:** TextField, DropDownList, CheckBox, DateTimeEdit, Spinner, Slider, MultiSelect List, and more
-- **Parameter Details Panel:** View constraints, validation rules, and help text for each parameter
-- **Real-time Validation:** Input validation with visual feedback (red highlights on errors)
-- **Professional UI:** Split-panel layout with native widgets on Windows/Mac/Linux
-- **FIX Message Generation:** Automatically generates properly formatted FIX messages
+- **ATDL parsing:** Parameters, constraints, controls, and state rules (parsed)
+- **OMS-style layout:** Strategy catalog, order ticket, inspector, and FIX output dock
+- **Toolbar actions:** Load, Validate, Generate FIX, Copy FIX
+- **Required-field validation:** Highlights missing required parameters before FIX generation
+- **8+ control types:** TextField, DropDownList, CheckBox, DateTimeEdit, Spinner, Slider, and more
+- **Inspector panel:** FIX tag, constraints, and descriptions for the focused parameter
 
 ## Requirements
 
@@ -19,79 +19,87 @@ A professional cross-platform desktop application for rendering FIXatdl XML file
 ## Installation & Setup
 
 ```bash
-# Clone the repository
 git clone https://github.com/amritbharadwaj/ATDL_Forge.git
 cd ATDL_Forge
 
-# Install runtime dependencies
 pip install -r requirements.txt
 
 # Optional: dev/build tools (PyInstaller, pytest, black, mypy)
 pip install -e ".[dev]"
 
-# Run the application
 python main.py
 ```
 
 ## Usage
 
-1. Click **Load ATDL XML** to select your FIXatdl XML file
-2. Choose a strategy from the dropdown menu
-3. Fill out the parameter form on the left
-   - Required parameters are marked with `*`
-   - Focus on any parameter to view its constraints in the right panel
-   - Validation feedback appears on invalid input
-4. Click **Generate FIX Message** to create your FIX order
-5. Copy the generated message from the output panel
+1. **Load ATDL XML** (toolbar or File menu) and select your FIXatdl file
+2. Pick a **strategy** from the left catalog
+3. Fill the **Order Parameters** ticket in the center
+   - Required fields are marked with `*`
+   - Click **Validate** to check required fields (invalid fields are highlighted)
+4. Focus a field to see metadata in the **Inspector** (right)
+5. **Generate FIX** to build the message in the bottom dock
+6. **Copy FIX** to copy the message to the clipboard
+
+## UI Layout
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ Menu  │  Load │ Validate │ Generate FIX │ Copy FIX          │
+├──────────┬──────────────────────────────┬──────────────────┤
+│ Strategies│  Order Parameters (ticket)  │  Inspector       │
+│  catalog  │                              │                  │
+├──────────┴──────────────────────────────┴──────────────────┤
+│ FIX Message (preview dock)                                    │
+├─────────────────────────────────────────────────────────────┤
+│ Status: file · strategy count · validation                    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## Architecture
 
 ```
 atdl_forge/
 ├── core/
-│   ├── atdl_parser.py       # Enhanced XML parsing with constraint extraction
-│   ├── models.py             # Dataclass models (Strategy, Parameter, Control, Constraint)
-│   └── fix_generator.py      # FIX message generation
-├── ui/
-│   ├── main_window.py        # Main PySide6 application window
-│   ├── parameter_form.py     # Dynamic form rendering
-│   ├── parameter_details_panel.py  # Constraint display panel
-│   └── widgets/
-│       └── control_factory.py # Widget factory for ATDL control types
+│   ├── atdl_parser.py
+│   ├── models.py
+│   └── fix_generator.py
+└── ui/
+    ├── main_window.py           # OMS shell
+    ├── parameter_form.py        # Order ticket
+    ├── parameter_details_panel.py
+    ├── theme/
+    │   └── light_oms.qss        # Light professional theme
+    ├── components/
+    │   ├── toolbar.py
+    │   ├── strategy_navigator.py
+    │   └── fix_output_panel.py
+    └── widgets/
+        └── control_factory.py
 ```
-
-## What’s Extracted from ATDL
-
-- Parameter metadata: name, FIX tag, label, description, required flag
-- Constraints: length, integer range, numeric range, regex pattern, allowed values
-- Controls: widget type, position, visibility, help text
-- State rules: parsed for future dependency visualization
 
 ## Building Standalone Executables
 
 ```bash
-# Install PyInstaller
-pip install PyInstaller
-
-# Build for Windows/Mac/Linux using the checked-in spec
+pip install -e ".[dev]"
 python -m PyInstaller --noconfirm --clean build.spec
-
-# Executable location: dist/ATDL Forge.exe
+# Output: dist/ATDL Forge.exe
 ```
 
-## Known Limitations (MVP)
+Build artifacts (`dist/`, `build/`) are local only and not committed to git.
 
-- State rules are parsed but not evaluated (no conditional visibility/enabling yet)
+## Known Limitations
+
+- State rules are parsed but not evaluated (no conditional visibility yet)
+- Complex `StrategyPanel` hierarchies from production ATDL are not fully rendered
 - Cross-parameter validation not implemented
-- Multi-language support not available
 
-## Future Enhancements
+## Planned Tools (Phase 2)
 
-- State rules evaluation for dynamic field visibility/dependencies
-- Advanced validation rules and cross-field validation
-- Save/load parameter presets
-- Dark mode and theme switching
-- REST API integration for order submission
+- **Strategy Visualizer:** Parameter map, layout tree, dependency graph from state rules
+- **State rules engine:** Dynamic show/hide and enable/disable on the ticket
+- **Preset manager:** Save and load ticket field values
+- **Enum / ValidValues browser** for production algo definitions
 
 ## Author
 
@@ -99,4 +107,4 @@ Amrit Bharadwaj
 
 ## Version
 
-1.0.0-MVP (2025)
+1.1.0 — OMS UI Phase 1 (2025)
